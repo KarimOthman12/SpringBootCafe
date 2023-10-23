@@ -1,7 +1,6 @@
 package com.leogy.leogy.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,6 @@ import com.leogy.leogy.model.Review;
 public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
-	
 	
 	@GetMapping(path="/{beverageId}/reviews")
 	public List<Review> getReviewsForBeverage(@PathVariable("beverageId")Long id){

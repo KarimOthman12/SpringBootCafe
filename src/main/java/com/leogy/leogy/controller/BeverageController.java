@@ -1,7 +1,6 @@
 package com.leogy.leogy.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.leogy.leogy.Service.BeverageService;
 import com.leogy.leogy.model.Beverage;
 
@@ -32,13 +30,11 @@ public class BeverageController {
 		beverageService.addNewBeverage(beverage);
 	}
 	
-	//consider spaces like abdul%20karim
 	@DeleteMapping(path="/{beverageName}")
 	public void deleteBeveragebyName(@PathVariable("beverageName")String name) {
 		beverageService.deleteBeverageByName(name);
 	}
 	
-	//afterpath?cost=44
 	@PutMapping(path="{beverageName}")
 	public void updateBeverageCost(
 			@PathVariable("beverageName") String name,

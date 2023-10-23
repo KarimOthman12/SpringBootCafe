@@ -2,13 +2,10 @@ package com.leogy.leogy.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.leogy.leogy.model.Beverage;
 import com.leogy.leogy.reposiory.BeverageRepository;
-
 import jakarta.transaction.Transactional;
 
 @Service
@@ -16,7 +13,6 @@ public class BeverageService {
 	@Autowired
 	private BeverageRepository beverageRepository;
 
-	
 	public List<Beverage> getBeverages() {
 		return beverageRepository.findAll();
 	}
