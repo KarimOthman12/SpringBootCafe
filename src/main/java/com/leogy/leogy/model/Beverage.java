@@ -30,8 +30,7 @@ public class Beverage {
     @Size(max = 10)
 	private String cupSize;
 	private String note;
-	//@OneToMany(mappedBy="beverage", cascade=CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
-	//private List<Review> reviews = new ArrayList<Review>();
+
 	
 
 
