@@ -2,49 +2,61 @@ package com.leogy.leogy.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.leogy.leogy.model.Beverage;
 import com.leogy.leogy.reposiory.BeverageRepository;
+import com.leogy.leogy.reposiory.ReviewRepository;
+
 import jakarta.transaction.Transactional;
 
 @Service
 public class BeverageService {
 	@Autowired
 	private BeverageRepository beverageRepository;
-
-	public List<Beverage> getBeverages() {
+	@Autowired
+	private ReviewRepository reviewRepository;
+	public List<Beverage> getBeverage() {
 		return beverageRepository.findAll();
 	}
 	
-	public void addNewBeverage(Beverage beverage) {
-		Optional<Beverage> optionalBeverageByName =
-				beverageRepository.findBeverageByName(beverage.getName());
-		if(optionalBeverageByName.isPresent()) {
-			throw new IllegalStateException("name is taken, please try different name");
-		}
-		beverageRepository.save(beverage);
-	}
-	
+	public Beverage addNewBeverage(Beverage beverage) {
+		return beverageRepository.save(beverage);
+	}	
+
     @Transactional
-	public void deleteBeverageByName(String beverageName) {
+	public Optional<Beverage> deleteBeverageByName(String beverageName) {
     	Optional<Beverage> optionalBeverageByName =
 				beverageRepository.findBeverageByName(beverageName);
-		if(!optionalBeverageByName.isPresent()) {
-			throw new IllegalStateException("no such beverage");
-		}
-        beverageRepository.deleteBeverageByName(beverageName);
+    	if(optionalBeverageByName.isPresent()) {
+    		Beverage beverage = optionalBeverageByName.get();
+    		beverage.getId();
+    		reviewRepository.deleteAllReviewsByBeverageId(beverage.getId());
+    	}
+    	beverageRepository.deleteBeverageByName(beverageName);
+    	return optionalBeverageByName;
 	}
     
     @Transactional
-    public void updateCost(String beverageName, double cost ) {
+    public Optional<Beverage> updateCost(String beverageName, double cost ) {
     	Optional<Beverage> optionalBeverageByName =
 				beverageRepository.findBeverageByName(beverageName);
-		if(!optionalBeverageByName.isPresent()) {
-			throw new IllegalStateException("no such beverage");
+		if(optionalBeverageByName.isEmpty()) {
+			return optionalBeverageByName;
 		}
 		Beverage beverage = optionalBeverageByName.get();
 		beverage.setCost(cost);
+		return Optional.of(beverage);
+    }
+    
+    public Optional<Beverage> findBeverageByName(String beverageName) {
+    	return beverageRepository.findBeverageByName(beverageName);
+    }
+    
+    public Optional<Beverage> findBeverageById(Long id) {
+    	return beverageRepository.findById(id);
     }
 	
 }

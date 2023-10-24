@@ -8,7 +8,6 @@ import com.leogy.leogy.model.Beverage;
 import com.leogy.leogy.model.Review;
 import com.leogy.leogy.reposiory.BeverageRepository;
 import com.leogy.leogy.reposiory.ReviewRepository;
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ReviewService {
@@ -18,20 +17,21 @@ public class ReviewService {
 	@Autowired
 	private BeverageRepository beverageRepository;
 	
-	public List<Review> getReviewsForBeverage(long id) {
+	public Optional<List<Review>> getReviewsForBeverage(long id) {
 		return reviewRepository.findByBeverageId(id);
 	}
 	
-	public void addReviewForBeverage(Long beverageId, Review review) {
+	public Optional<Beverage> addReviewForBeverage(Long beverageId, Review review) {
 		Optional<Beverage> beverageOptional  = beverageRepository.findById(beverageId);
-	    if (beverageOptional .isPresent()) {
-	        Beverage beverage = beverageOptional.get();
-			review.setBeverage(beverage);
+	    if (beverageOptional.isEmpty()) {
+	        return beverageOptional;
 	    }   
 	    else {
-	        throw new EntityNotFoundException("Beverage not found with ID: " + beverageId);
+	    	Beverage beverage = beverageOptional.get();
+	    	review.setBeverage(beverage);
+			reviewRepository.save(review);
+	        return beverageOptional;
 	    }
-		reviewRepository.save(review);
 	}
 	
 	public List<Review> getAllReviews() {

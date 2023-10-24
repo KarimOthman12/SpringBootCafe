@@ -1,7 +1,6 @@
 package com.leogy.leogy.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +31,7 @@ public class Review {
     @Size(max = 50)
 	private String title;
 	private String content;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne()
 	@JoinColumn(name="beverage_id")
 	private Beverage beverage;
 	
